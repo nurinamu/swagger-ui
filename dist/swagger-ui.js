@@ -1668,8 +1668,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       _ref6 = this.model.parameters;
       for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
         param = _ref6[_j];
-        type = param.type || param.dataType;
-        if (type.toLowerCase() === 'file') {
+        type = param.type || param.dataType || param.paramType;
+        if (type && type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
             log("set content type ");
             contentTypeModel.consumes = 'multipart/form-data';
@@ -2095,7 +2095,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     ParameterView.prototype.initialize = function() {
       return Handlebars.registerHelper('isArray', function(param, opts) {
-        if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
+        if (param.type && param.type.toLowerCase() === 'array' || param.allowMultiple) {
           return opts.fn(this);
         } else {
           return opts.inverse(this);
@@ -2109,7 +2109,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
-      if (type.toLowerCase() === 'file') {
+      if (type && type.toLowerCase() === 'file') {
         this.model.isFile = true;
       }
       template = this.template();
